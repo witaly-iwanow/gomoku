@@ -1,0 +1,17 @@
+.square-container {
+    display: grid;
+    width: 98vmin;
+    grid-template-columns: repeat(var(--grid-cols), 1fr);
+    grid-gap: 1px;
+  }
+
+  .square {
+    aspect-ratio: 1/1;
+    background-color: gray;
+    transition: ease 0.5s all;
+  }
+
+  .square:hover {
+    background-color: powderblue;
+    transition: ease 0.1s all;
+}
