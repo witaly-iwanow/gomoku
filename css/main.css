@@ -1,17 +1,21 @@
+body {
+    background-color: #282828;
+}
+
 .square-container {
     display: grid;
     width: 98vmin;
     grid-template-columns: repeat(var(--grid-cols), 1fr);
     grid-gap: 1px;
-  }
+}
 
-  .square {
+.square {
     aspect-ratio: 1/1;
-    background-color: gray;
+    background-color: burlywood;
     transition: ease 0.5s all;
-  }
+}
 
-  .square:hover {
+.square:hover {
     background-color: powderblue;
     transition: ease 0.1s all;
 }
