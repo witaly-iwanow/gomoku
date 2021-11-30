@@ -95,7 +95,7 @@ function SpanLength(row, col, horDir, vertDir) {
 
 function CheckVictory(row, col) {
     if (SpanLength(row, col, 1, 0) > 4 || SpanLength(row, col, 0, 1) > 4 ||
-        SpanLength(row, col, 1, -1) > 4 || SpanLength(row, col, -1, 1) > 4) {
+        SpanLength(row, col, 1, 1) > 4 || SpanLength(row, col, 1, -1) > 4) {
         gameOver = true;
         // throwing alert right away results in the final cell being stuck in highlighted state
         setTimeout(function() { alert((boardArray[row][col] === 1 ? 'Black' : 'White') + ' won!'); NewGame(); }, 100);
