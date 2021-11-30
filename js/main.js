@@ -35,14 +35,73 @@ function UpdateBoard() {
     document.body.appendChild(board);
 }
 
+let gameOver = false;
+let currColor = 1;
+let numEmptyCells = boardWidth * boardHeight;
 function NewGame() {
+    gameOver = false;
+    currColor = 1;
+    numEmptyCells = boardWidth * boardHeight;
     boardArray = Array.from(Array(boardHeight), () => new Array(boardWidth));
     UpdateBoard();
 }
 
-let currColor = 1;
 function SquareClicked(row, col) {
-    boardArray[row][col] = currColor;
-    currColor = -currColor;
-    UpdateBoard();
+    // precaution from an extremely fast mouse clicker: we use setTimeout
+    // in CheckVictory() to give UI a chance to redraw the board before
+    // the win alert is thrown, so in theory some click event can be squeezed
+    // in between
+    if (!gameOver) {
+        --numEmptyCells;
+        boardArray[row][col] = currColor;
+        currColor = -currColor;
+        UpdateBoard();
+        CheckVictory(row, col);
+    }
+}
+
+function SpanLength(row, col, horDir, vertDir) {
+    const color = boardArray[row][col];
+    let len = 1;
+
+    let x = row + horDir;
+    let y = col + vertDir;
+    while (x >= 0 && x < (boardWidth - 1) && y >= 0 && y < (boardHeight - 1)) {
+        if (boardArray[x][y] != color)
+            break;
+
+        if (++len > 4)
+            return 5;
+
+        x += horDir;
+        y += vertDir;
+    }
+
+    x = row - horDir;
+    y = col - vertDir;
+    while (x >= 0 && x < (boardWidth - 1) && y >= 0 && y < (boardHeight - 1)) {
+        if (boardArray[x][y] != color)
+            break;
+
+        if (++len > 4)
+            return 5;
+
+        x -= horDir;
+        y -= vertDir;
+    }
+
+    return len;
+}
+
+function CheckVictory(row, col) {
+    if (SpanLength(row, col, 1, 0) > 4 || SpanLength(row, col, 0, 1) > 4 ||
+        SpanLength(row, col, 1, -1) > 4 || SpanLength(row, col, -1, 1) > 4) {
+        gameOver = true;
+        // throwing alert right away results in the final cell being stuck in highlighted state
+        setTimeout(function() { alert((boardArray[row][col] === 1 ? 'Black' : 'White') + ' won!'); NewGame(); }, 100);
+    }
+    else if (numEmptyCells < 1) {
+        gameOver = true;
+        setTimeout(function() { alert('Draw!'); NewGame(); }, 100);
+    }
 }
