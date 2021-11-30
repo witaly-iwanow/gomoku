@@ -23,6 +23,7 @@ function UpdateBoard() {
                 cell.style.pointerEvents = 'none';
             }
             else {
+                cell.style.setProperty('--background-color', currColor === 1 ? '#404040' : '#d0d0d0');
                 cell.addEventListener('click', function(){
                     SquareClicked(row, col);
                 });

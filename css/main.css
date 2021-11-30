@@ -16,6 +16,6 @@ body {
 }
 
 .square:hover {
-    background-color: powderblue;
+    background-color: var(--background-color);
     transition: ease 0.1s all;
 }
