@@ -66,7 +66,7 @@ function SpanLength(row, col, horDir, vertDir) {
 
     let x = row + horDir;
     let y = col + vertDir;
-    while (x >= 0 && x < (boardWidth - 1) && y >= 0 && y < (boardHeight - 1)) {
+    while (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
         if (boardArray[x][y] != color)
             break;
 
@@ -79,7 +79,7 @@ function SpanLength(row, col, horDir, vertDir) {
 
     x = row - horDir;
     y = col - vertDir;
-    while (x >= 0 && x < (boardWidth - 1) && y >= 0 && y < (boardHeight - 1)) {
+    while (x >= 0 && x < boardWidth && y >= 0 && y < boardHeight) {
         if (boardArray[x][y] != color)
             break;
 
