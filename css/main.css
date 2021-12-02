@@ -4,7 +4,7 @@ body {
 
 .square-container {
     display: grid;
-    width: 98vmin;
+    width: 96vmin;
     grid-template-columns: repeat(var(--grid-cols), 1fr);
     grid-gap: 1px;
 }
