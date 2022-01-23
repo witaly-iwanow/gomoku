@@ -16,6 +16,7 @@ function UpdateBoard() {
     const board = document.createElement('div');
     board.className = 'square-container';
     board.style.setProperty('--grid-cols', boardWidth);
+    board.style.setProperty('--curr-color', playerColorsHighlight[currColor]);
 
     for (let row = 0; row < boardHeight; ++row) {
         for (let col = 0; col < boardWidth; ++col) {
@@ -23,7 +24,7 @@ function UpdateBoard() {
             cell.className = 'square';
 
             if (boardArray[row][col] < 0) {
-                cell.style.setProperty('--background-color', playerColorsHighlight[currColor]);
+                cell.style.setProperty('--curr-color', playerColorsHighlight[currColor]);
                 cell.addEventListener('click', function(){
                     SquareClicked(row, col);
                 });
@@ -63,9 +64,6 @@ function SquareClicked(row, col) {
         UpdateBoard();
         CheckVictory(row, col);
     }
-
-    if (touchDevice && !gameOver)
-        document.body.style.backgroundColor = playerColors[currColor];
 }
 
 function SpanLength(row, col, horDir, vertDir) {

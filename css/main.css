@@ -7,6 +7,7 @@ body {
     width: 96vmin;
     grid-template-columns: repeat(var(--grid-cols), 1fr);
     grid-gap: 1px;
+    background-color: var(--curr-color);
 }
 
 .square {
@@ -16,6 +17,6 @@ body {
 }
 
 .square:hover {
-    background-color: var(--background-color);
+    background-color: var(--curr-color);
     transition: ease 0.1s all;
 }
