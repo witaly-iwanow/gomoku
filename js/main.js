@@ -1,6 +1,13 @@
 const boardWidth = 15;
 const boardHeight = 15;
 
+const numPlayers = 3;
+const playerColors = [ 'black', 'white', 'deeppink' ];
+const playerColorsHighlight = [ '#404040', '#d0d0d0', 'pink' ];
+const playerNames = [ 'Black', 'White', 'Pink' ];
+
+const touchDevice = matchMedia('(hover: none)').matches;
+
 let boardArray;
 
 function UpdateBoard() {
@@ -14,19 +21,16 @@ function UpdateBoard() {
         for (let col = 0; col < boardWidth; ++col) {
             const cell = document.createElement('div');
             cell.className = 'square';
-            if (boardArray[row][col] === 1) {
-                cell.style.backgroundColor = 'black';
-                cell.style.pointerEvents = 'none';
-            }
-            else if (boardArray[row][col] === -1) {
-                cell.style.backgroundColor = 'white';
-                cell.style.pointerEvents = 'none';
-            }
-            else {
-                cell.style.setProperty('--background-color', currColor === 1 ? '#404040' : '#d0d0d0');
+
+            if (boardArray[row][col] < 0) {
+                cell.style.setProperty('--background-color', playerColorsHighlight[currColor]);
                 cell.addEventListener('click', function(){
                     SquareClicked(row, col);
                 });
+            }
+            else {
+                cell.style.backgroundColor = playerColors[boardArray[row][col]];
+                cell.style.pointerEvents = 'none';
             }
             board.appendChild(cell);
         }
@@ -36,13 +40,13 @@ function UpdateBoard() {
 }
 
 let gameOver = false;
-let currColor = 1;
+let currColor = 0;
 let numEmptyCells = boardWidth * boardHeight;
 function NewGame() {
     gameOver = false;
-    currColor = 1;
+    currColor = 0;
     numEmptyCells = boardWidth * boardHeight;
-    boardArray = Array.from(Array(boardHeight), () => new Array(boardWidth));
+    boardArray = Array.from(Array(boardHeight), () => new Array(boardWidth).fill(-1));
     UpdateBoard();
 }
 
@@ -54,10 +58,14 @@ function SquareClicked(row, col) {
     if (!gameOver) {
         --numEmptyCells;
         boardArray[row][col] = currColor;
-        currColor = -currColor;
+        if (++currColor >= numPlayers)
+            currColor -= numPlayers;
         UpdateBoard();
         CheckVictory(row, col);
     }
+
+    if (touchDevice && !gameOver)
+        document.body.style.backgroundColor = playerColors[currColor];
 }
 
 function SpanLength(row, col, horDir, vertDir) {
@@ -98,7 +106,7 @@ function CheckVictory(row, col) {
         SpanLength(row, col, 1, 1) > 4 || SpanLength(row, col, 1, -1) > 4) {
         gameOver = true;
         // throwing alert right away results in the final cell being stuck in highlighted state
-        setTimeout(function() { alert((boardArray[row][col] === 1 ? 'Black' : 'White') + ' won!'); NewGame(); }, 100);
+        setTimeout(function() { alert(playerNames[boardArray[row][col]] + ' won!'); NewGame(); }, 100);
     }
     else if (numEmptyCells < 1) {
         gameOver = true;
