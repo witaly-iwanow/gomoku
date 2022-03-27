@@ -1,5 +1,5 @@
 # gomoku
 
-Simple human-to-human gomoku game. Can be checked out [here](https://pop-av.icu)
+Simple human-to-human gomoku game. There's also 3-player version available in a branch.
 
 ![](ss.png)
